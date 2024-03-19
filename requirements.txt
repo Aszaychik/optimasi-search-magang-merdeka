@@ -1,3 +1,7 @@
+ipykernel
 requests
 pandas
-bs4
+lxml
+nltk
+Sastrawi
+scikit-learn
