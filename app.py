@@ -21,8 +21,8 @@ tfidf_vectorizer = TfidfVectorizer()
 X = tfidf_vectorizer.fit_transform(cleaned_data['result_stemming'])
 
 def random_magang(n=10):
-    magang_drop_mitra_nan = magang_opportunities.dropna(subset=['mitra_name'])
-    items = magang_drop_mitra_nan.sample(n)
+    filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'external_platform_logo_url'])
+    items = filter_magang.sample(n)
     return items.to_dict('records')
 
 def content_based_recommendation(content_id, n=10):
