@@ -81,6 +81,10 @@ def home():
     items = random_magang(3)
     return render_template('index.html', items=items)
 
+@app.route('/recommend')
+def recommend_page():
+    return render_template('recommend_page.html')
+
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
 def content_based_recommend(content_id):
     n = request.args.get('n', 5, type=int)
