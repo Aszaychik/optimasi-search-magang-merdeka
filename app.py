@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -77,7 +77,7 @@ def query_based_recommendation(query, n=10):
 
 @app.route('/', methods=['GET'])
 def home():
-    return "Welcome Search Recommendation Magang Merdeka"
+    return render_template('index.html')
 
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
 def content_based_recommend(content_id):
