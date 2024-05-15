@@ -3,6 +3,7 @@ from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import random
 
 app = Flask(__name__)
 
@@ -19,6 +20,11 @@ tfidf_vectorizer = TfidfVectorizer()
 
 X = tfidf_vectorizer.fit_transform(cleaned_data['result_stemming'])
 
+def random_magang(n=10):
+    magang_drop_mitra_nan = magang_opportunities.dropna(subset=['mitra_name'])
+    items = magang_drop_mitra_nan.sample(n)
+    return items.to_dict('records')
+
 def content_based_recommendation(content_id, n=10):
     content_index = magang_opportunities.index[magang_opportunities['id'] == content_id].tolist()[0]
 
@@ -28,10 +34,6 @@ def content_based_recommendation(content_id, n=10):
     top_n_content = sorted_similar_content[1:n+1]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
-
-    print(f"Content magang: {magang_opportunities.loc[magang_opportunities['id'] == content_id, 'name'].iloc[0]}")
-
-    print(f"Top {n} Recommendation result: ")
 
     for i in top_n_content:
         score = similarity_score[content_index][i]
@@ -58,8 +60,7 @@ def query_based_recommendation(query, n=10):
     top_n_content = sorted_similar_content[1:n+1]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
-    print(f"Query: {query}")
-    print(f"Top {n} Recommendation result: ")
+
     for i in top_n_content:
         score = similarity_score[0][i]
         if score != 0:  # Check if similarity score is not equal to 0
@@ -75,14 +76,16 @@ def query_based_recommendation(query, n=10):
 
     return recommendation_result
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def home():
-    return render_template('index.html')
+    items = random_magang(3)
+    return render_template('index.html', items=items)
 
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
 def content_based_recommend(content_id):
     n = request.args.get('n', 5, type=int)
     result = content_based_recommendation(content_id, n)
+    print(result)
     return jsonify(result.to_dict(orient='records'))
 
 @app.route('/query-based-recommend', methods=['GET'])
