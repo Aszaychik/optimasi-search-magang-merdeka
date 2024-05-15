@@ -1,9 +1,16 @@
 from flask import Flask, request, jsonify
+from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
+
+assets = Environment(app)
+css = Bundle("src/main.css", output="dist/main.css")
+
+assets.register("css", css)
+css.build()
 
 magang_opportunities = pd.read_csv('data/magang_opportunities.csv')
 cleaned_data = pd.read_csv('data/cleaned_data.csv')
