@@ -11,7 +11,8 @@
 
     <title>Flask + htmlx + Tailwind CSS</title>
   </head>
-  <body class="bg-black justify-center">
+  <body class="font-sans">
+    <nav>{% include 'navbar.html' %}</nav>
     {% block content %} {% endblock content %}
   </body>
 </html>
