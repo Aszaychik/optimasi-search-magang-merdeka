@@ -1,9 +1,10 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, redirect, jsonify, render_template
 from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import random
+from flask import url_for
 
 app = Flask(__name__)
 
@@ -81,8 +82,12 @@ def home():
     items = random_magang(3)
     return render_template('index.html', items=items)
 
-@app.route('/recommend')
+@app.route('/recommend', methods=['GET', 'POST'])
 def recommend_page():
+    if request.method == 'POST':
+        query = request.form.get('query')
+        n = request.form.get('n', 5, type=int)
+        return redirect(url_for('query_based_recommend', query=query, n=n))
     return render_template('recommend_page.html')
 
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
