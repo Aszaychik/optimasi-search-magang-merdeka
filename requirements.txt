@@ -5,4 +5,3 @@ lxml
 nltk
 Sastrawi
 scikit-learn
-joblib
