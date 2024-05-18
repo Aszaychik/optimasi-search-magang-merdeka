@@ -82,6 +82,11 @@ def home():
     items = random_magang(3)
     return render_template('index.html', items=items)
 
+@app.route('/magang')
+def magang_list():
+    items = magang_opportunities.to_dict('records')
+    return render_template('magang_list.html', items=items)
+
 @app.route('/recommend', methods=['GET', 'POST'])
 def recommend_page():
     if request.method == 'POST':
