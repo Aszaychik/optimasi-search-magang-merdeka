@@ -22,7 +22,7 @@ tfidf_vectorizer = TfidfVectorizer()
 X = tfidf_vectorizer.fit_transform(cleaned_data['result_stemming'])
 
 def random_magang(n=10):
-    filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'external_platform_logo_url'])
+    filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'logo'])
     items = filter_magang.sample(n)
     return items.to_dict('records')
 

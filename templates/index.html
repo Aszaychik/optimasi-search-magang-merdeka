@@ -56,11 +56,7 @@
   >
     {% for item in items %}
     <div class="flex flex-col justify-center items-center p-4">
-      <img
-        src="{{ item.external_platform_logo_url }}"
-        alt=""
-        class="max-h-16"
-      />
+      <img src="{{ item.logo }}" alt="" class="max-h-16" />
       <h3 class="my-3 text-3xl font-semibold text-center">{{ item.name }}</h3>
       <div class="space-y-1 leading-tight">
         <p>{{ item.mitra_name }}</p>
