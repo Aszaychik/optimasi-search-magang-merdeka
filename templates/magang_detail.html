@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="text-center text-6xl"></h1>
+<section class="bg-gray-800 dark:bg-white text-gray-100 dark:text-gray-800">
+  <div
+    class="container flex flex-col justify-center p-6 mx-auto sm:py-12 lg:py-24 lg:flex-row lg:justify-between"
+  >
+    <div
+      class="flex flex-col justify-center p-6 text-center rounded-sm lg:max-w-md xl:max-w-lg lg:text-left"
+    >
+      <h1 class="text-blue-600 text-2xl font-bold leading-none sm:text-6xl">
+        {{item.name}}
+      </h1>
+      <p class="mt-6 mb-8 text-md sm:mb-12">{{item.detail_additional_title}}</p>
+    </div>
+    <div
+      class="flex flex-col items-center justify-center p-6 mt-8 lg:mt-0 w-1/3"
+    >
+      <img src="{{ item.logo }}" alt="" class="object-contain h-32" />
+      <h1 class="text-center text-xl font-bold leading-none sm:text-6xl">
+        {{item.mitra_name}}
+      </h1>
+    </div>
+  </div>
+</section>
+<section
+  class="m-4 md:m-8 bg-gray-800 dark:bg-white text-gray-100 dark:text-gray-800"
+>
+  <div class="container mx-auto p-4 my-6 space-y-2 text-center">
+    <h2 class="text-5xl font-bold">Program Magang Yang Mirip</h2>
+    <p class="text-gray-400 dark:text-gray-600">
+      Rekomendasi program magang yang mirip sesuai dengan content based
+      filtering menggunakan algoritma cosine similarity
+    </p>
+  </div>
+  <div
+    class="container mx-auto grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3"
+  >
+    {% for recommend_item in recommend_items %}
+    <div class="flex flex-col justify-center items-center p-4">
+      <img src="{{ recommend_item.logo }}" alt="" class="max-h-16" />
+      <a
+        class="my-3 text-3xl font-semibold text-center"
+        href="https://kampusmerdeka.kemdikbud.go.id/program/magang/browse/{{recommend_item.mitra_id}}/{{recommend_item.id}}"
+      >
+        {{ recommend_item.name }}
+      </a>
+      <div class="space-y-1 leading-tight">
+        <p>{{ recommend_item.mitra_name }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="container mx-auto p-4 my-6 space-y-2 text-center">
+    <a
+      rel="noopener noreferrer"
+      href="/magang"
+      class="px-8 py-3 text-lg font-semibold rounded bg-blue-400 dark:bg-blue-600 text-gray-900 dark:text-gray-50"
+      >Selengkapnya</a
+    >
+  </div>
+</section>
+{% endblock content %}
