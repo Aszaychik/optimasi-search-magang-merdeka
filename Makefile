@@ -12,12 +12,12 @@ all: install_deps build
 
 install_deps:
     # Install Python dependencies
-    pip install -r requirements.txt
+		pip install -r requirements.txt
 
 build: install_deps
     # Compile Tailwind CSS
-    $(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
+		$(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
 
 run: build
     # Run the Python application
-    $(PYTHONCMD) app.py
+		$(PYTHONCMD) app.py
