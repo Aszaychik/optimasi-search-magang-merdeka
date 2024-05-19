@@ -34,7 +34,7 @@ def content_based_recommendation(content_id, n=10):
 
     top_n_content = sorted_similar_content[1:n+1]
 
-    recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
+    recommendation_result = pd.DataFrame(columns=['id', 'name', 'mitra', 'score'])
 
     for i in top_n_content:
         score = similarity_score[content_index][i]
@@ -44,8 +44,8 @@ def content_based_recommendation(content_id, n=10):
                 pd.DataFrame({
                     'id': [magang_opportunities.iloc[i]['id']],
                     'name': [magang_opportunities.iloc[i]['name']],
-                    'score': [score],
-                    'mitra': [magang_opportunities.iloc[i]['mitra_name']]
+                    'mitra': [magang_opportunities.iloc[i]['mitra_name']],
+                    'score': [score]
                 })
             ], ignore_index=True)
 
@@ -60,7 +60,7 @@ def query_based_recommendation(query, n=10):
     sorted_similar_content = similarity_score.argsort()[0][::-1]
     top_n_content = sorted_similar_content[1:n+1]
 
-    recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
+    recommendation_result = pd.DataFrame(columns=['id', 'name', 'mitra', 'score'])
 
     for i in top_n_content:
         score = similarity_score[0][i]
@@ -70,8 +70,8 @@ def query_based_recommendation(query, n=10):
                 pd.DataFrame({
                     'id': [magang_opportunities.iloc[i]['id']],
                     'name': [magang_opportunities.iloc[i]['name']],
-                    'score': [score],
-                    'mitra': [magang_opportunities.iloc[i]['mitra_name']]
+                    'mitra': [magang_opportunities.iloc[i]['mitra_name']],
+                    'score': [score]
                 })
             ], ignore_index=True)
 
