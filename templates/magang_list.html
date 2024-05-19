@@ -9,10 +9,10 @@
     </p>
   </div>
   <div
-    class="container mx-auto grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    class="container mx-auto grid justify-center gap-4 sm:grid-cols-2 xl:grid-cols-4"
   >
     {% for item in items %}
-    <div class="flex flex-col justify-center items-center p-4">
+    <div class="flex flex-col justify-center items-center p-4 item">
       <img
         src="{{ item.external_platform_logo_url }}"
         alt=""
@@ -30,12 +30,27 @@
     {% endfor %}
   </div>
   <div class="container mx-auto p-4 my-6 space-y-2 text-center">
-    <a
-      rel="noopener noreferrer"
-      href="/magang"
+    <button
+      id="show-more"
       class="px-8 py-3 text-lg font-semibold rounded bg-blue-400 dark:bg-blue-600 text-gray-900 dark:text-gray-50"
-      >Selengkapnya</a
     >
+      Selengkapnya
+    </button>
   </div>
 </section>
+
+<style>
+  .item:nth-child(n + 9) {
+    display: none;
+  }
+</style>
+
+<script>
+  document.getElementById('show-more').addEventListener('click', function () {
+    document.querySelectorAll('.item:nth-child(n+9)').forEach(function (item) {
+      item.style.display = 'flex';
+    });
+    this.style.display = 'none';
+  });
+</script>
 {% endblock content %}
