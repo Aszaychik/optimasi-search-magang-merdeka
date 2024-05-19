@@ -3,7 +3,7 @@ from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import random
+import ast
 from flask import url_for
 
 app = Flask(__name__)
@@ -25,6 +25,18 @@ def random_magang(n=10):
     filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'logo'])
     items = filter_magang.sample(n)
     return items.to_dict('records')
+
+# Processes the skills column to extract the skill names
+def skills_processing(skills):
+    try:
+        skills_list = ast.literal_eval(skills)
+        if isinstance(skills_list, list):
+            return [skill['name'] for skill in skills_list]
+        else:
+            return skills_list  # Return as is if not a list
+    except (ValueError, SyntaxError):
+        return skills  # Return original value if parsing fails
+
 
 def content_based_recommendation(content_id, n=10):
     content_index = magang_opportunities.index[magang_opportunities['id'] == content_id].tolist()[0]
@@ -119,7 +131,10 @@ def magang_detail(content_id):
     item = magang_opportunities[magang_opportunities['id'] == content_id].to_dict('records')[0]
     recommend_items = content_based_recommendation(content_id, 5)
     recommend_items = magang_opportunities[magang_opportunities['id'].isin(recommend_items['id'])].to_dict('records')
-    return render_template('magang_detail.html', item=item, recommend_items=recommend_items)
+
+    skills = skills_processing(item['detail_skills'])
+
+    return render_template('magang_detail.html', item=item, recommend_items=recommend_items, skills=skills)
 
 if __name__ == '__main__':
     app.run(debug=True)
