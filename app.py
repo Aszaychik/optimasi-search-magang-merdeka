@@ -144,4 +144,4 @@ def magang_detail(content_id):
     return render_template('magang_detail.html', item=item, recommend_items=recommend_items, skills=skills)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

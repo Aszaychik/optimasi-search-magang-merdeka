@@ -14,9 +14,6 @@ build:
 	# Compile Tailwind CSS
 	$(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
 
-run:
-	# Compile Tailwind CSS
-	$(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
-
+run: build
 	# Run the Python application
 	$(PYTHONCMD) app.py
