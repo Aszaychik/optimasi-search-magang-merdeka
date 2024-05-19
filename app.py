@@ -84,7 +84,12 @@ def home():
 
 @app.route('/magang')
 def magang_list():
+    query = request.args.get('query')
     items = magang_opportunities.to_dict('records')
+
+    if query:
+        items = [item for item in items if query.lower() in item['name'].lower() or query.lower() in item['mitra_name'].lower()]
+
     return render_template('magang_list.html', items=items)
 
 @app.route('/recommend', methods=['GET', 'POST'])
