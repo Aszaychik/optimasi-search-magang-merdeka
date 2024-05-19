@@ -129,7 +129,7 @@ def query_based_recommend():
 @app.route('/magang/<content_id>', methods=['GET'])
 def magang_detail(content_id):
     item = magang_opportunities[magang_opportunities['id'] == content_id].to_dict('records')[0]
-    recommend_items = content_based_recommendation(content_id, 5)
+    recommend_items = content_based_recommendation(content_id, 6)
     recommend_items = magang_opportunities[magang_opportunities['id'].isin(recommend_items['id'])].to_dict('records')
 
     skills = skills_processing(item['detail_skills'])
