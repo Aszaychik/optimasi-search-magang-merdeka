@@ -2,7 +2,7 @@
   <nav class="relative px-4 py-4 flex justify-between items-center bg-white">
     <a class="text-3xl font-bold leading-none" href="#">
       <img
-        src="https://api.jiecs.top/lolicon?proxy=i.pixiv.re&size=mini&r18=1"
+        src="https://api.jiecs.top/lolicon?proxy=i.pixiv.re&size=mini&r18=0"
         alt=""
         class="h-10 rounded-full"
       />
@@ -20,7 +20,8 @@
       </button>
     </div>
     <ul
-      class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6"
+      class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6"
+      id="menu"
     >
       <li>
         <a class="text-sm text-gray-400 hover:text-gray-500" href="/">Home</a>
@@ -42,7 +43,7 @@
         </svg>
       </li>
       <li>
-        <a class="text-sm text-blue-600 font-bold" href="/recommend"
+        <a class="text-sm text-gray-400 hover:text-gray-500" href="/recommend"
           >Sistem Rekomendasi</a
         >
       </li>
@@ -178,6 +179,23 @@
           }
         });
       }
+    }
+  });
+
+  // Get the current URL path
+  const path = window.location.pathname;
+
+  // Get the menu items
+  const menuItems = document.querySelectorAll('#menu a');
+
+  // Loop through each menu item
+  menuItems.forEach((item) => {
+    // Check if the item's href matches the current path
+    if (item.getAttribute('href') === path) {
+      // If matched, add the class to change font color
+      item.classList.remove('text-gray-400');
+      item.classList.add('text-blue-600');
+      item.classList.add('font-bold');
     }
   });
 </script>
