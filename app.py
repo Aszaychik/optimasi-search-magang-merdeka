@@ -118,7 +118,7 @@ def query_based_recommend():
 def magang_detail(content_id):
     item = magang_opportunities[magang_opportunities['id'] == content_id].to_dict('records')[0]
     recommend_items = content_based_recommendation(content_id, 5)
-    recommend_items = recommend_items.to_dict('records')
+    recommend_items = magang_opportunities[magang_opportunities['id'].isin(recommend_items['id'])].to_dict('records')
     return render_template('magang_detail.html', item=item, recommend_items=recommend_items)
 
 if __name__ == '__main__':
