@@ -64,13 +64,13 @@ def content_based_recommendation(content_id, n=10):
     return recommendation_result
 
 
-def query_based_recommendation(query, n=10):
+def query_based_recommendation(query):
     query = query.casefold()  # Make sure the query is in lowercase
     query_vector = tfidf_vectorizer.transform([query])
     
     similarity_score = cosine_similarity(query_vector, X)
     sorted_similar_content = similarity_score.argsort()[0][::-1]
-    top_n_content = sorted_similar_content[1:n+1]
+    top_n_content = sorted_similar_content[1:]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'mitra', 'score'])
 
@@ -104,12 +104,17 @@ def magang_list():
 
     return render_template('magang_list.html', items=items)
 
-@app.route('/recommend', methods=['GET', 'POST'])
+@app.route('/recommend', methods=['GET'])
 def recommend_page():
-    if request.method == 'POST':
-        query = request.form.get('query')
-        n = request.form.get('n', 5, type=int)
-        return redirect(url_for('query_based_recommend', query=query, n=n))
+    query = request.args.get('query')
+    if query:
+        query_based_recommend_result = query_based_recommendation(query)
+        recommend_items = magang_opportunities[magang_opportunities['id'].isin(query_based_recommend_result['id'])].to_dict('records')
+
+        for i, rec_item in enumerate(recommend_items):
+            rec_item['score'] = query_based_recommend_result['score'][i]
+
+        return render_template('query_recommend.html', recommend_items=recommend_items, query=query)
     return render_template('recommend_page.html')
 
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
@@ -122,8 +127,7 @@ def content_based_recommend(content_id):
 @app.route('/query-based-recommend', methods=['GET'])
 def query_based_recommend():
     query = request.args.get('query')
-    n = request.args.get('n', 5, type=int)
-    result = query_based_recommendation(query, n)
+    result = query_based_recommendation(query)
     return jsonify(result.to_dict(orient='records'))
 
 @app.route('/magang/<content_id>', methods=['GET'])
