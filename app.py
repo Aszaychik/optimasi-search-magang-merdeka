@@ -1,9 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, redirect, jsonify, render_template
+from flask_assets import Bundle, Environment
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+import random
+from flask import url_for
 
 app = Flask(__name__)
+
+assets = Environment(app)
+css = Bundle("src/main.css", output="dist/main.css")
+
+assets.register("css", css)
+css.build()
 
 magang_opportunities = pd.read_csv('data/magang_opportunities.csv')
 cleaned_data = pd.read_csv('data/cleaned_data.csv')
@@ -11,6 +20,11 @@ cleaned_data = pd.read_csv('data/cleaned_data.csv')
 tfidf_vectorizer = TfidfVectorizer()
 
 X = tfidf_vectorizer.fit_transform(cleaned_data['result_stemming'])
+
+def random_magang(n=10):
+    filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'external_platform_logo_url'])
+    items = filter_magang.sample(n)
+    return items.to_dict('records')
 
 def content_based_recommendation(content_id, n=10):
     content_index = magang_opportunities.index[magang_opportunities['id'] == content_id].tolist()[0]
@@ -21,10 +35,6 @@ def content_based_recommendation(content_id, n=10):
     top_n_content = sorted_similar_content[1:n+1]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
-
-    print(f"Content magang: {magang_opportunities.loc[magang_opportunities['id'] == content_id, 'name'].iloc[0]}")
-
-    print(f"Top {n} Recommendation result: ")
 
     for i in top_n_content:
         score = similarity_score[content_index][i]
@@ -51,8 +61,7 @@ def query_based_recommendation(query, n=10):
     top_n_content = sorted_similar_content[1:n+1]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'score'])
-    print(f"Query: {query}")
-    print(f"Top {n} Recommendation result: ")
+
     for i in top_n_content:
         score = similarity_score[0][i]
         if score != 0:  # Check if similarity score is not equal to 0
@@ -68,14 +77,29 @@ def query_based_recommendation(query, n=10):
 
     return recommendation_result
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def home():
-    return "Welcome Search Recommendation Magang Merdeka"
+    items = random_magang(3)
+    return render_template('index.html', items=items)
+
+@app.route('/magang')
+def magang_list():
+    items = magang_opportunities.to_dict('records')
+    return render_template('magang_list.html', items=items)
+
+@app.route('/recommend', methods=['GET', 'POST'])
+def recommend_page():
+    if request.method == 'POST':
+        query = request.form.get('query')
+        n = request.form.get('n', 5, type=int)
+        return redirect(url_for('query_based_recommend', query=query, n=n))
+    return render_template('recommend_page.html')
 
 @app.route('/content-based-recommend/<content_id>', methods=['GET'])
 def content_based_recommend(content_id):
     n = request.args.get('n', 5, type=int)
     result = content_based_recommendation(content_id, n)
+    print(result)
     return jsonify(result.to_dict(orient='records'))
 
 @app.route('/query-based-recommend', methods=['GET'])

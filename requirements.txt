@@ -6,3 +6,5 @@ nltk
 Sastrawi
 scikit-learn
 flask
+flask-assets
+pytailwindcss

@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<section
+  class="m-4 md:m-8 bg-gray-800 dark:bg-white text-gray-100 dark:text-gray-800"
+>
+  <div class="container mx-auto p-4 my-6 space-y-2 text-center">
+    <h2 class="text-5xl font-bold">Program Magang</h2>
+    <p class="text-gray-400 dark:text-gray-600">
+      Program Magang yang tersedia oleh Magang Merdeka
+    </p>
+  </div>
+  <div
+    class="container mx-auto grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3"
+  >
+    {% for item in items %}
+    <div class="flex flex-col justify-center items-center p-4">
+      <img
+        src="{{ item.external_platform_logo_url }}"
+        alt=""
+        class="max-h-16"
+      />
+      <a
+        class="my-3 text-3xl font-semibold text-center"
+        href="https://kampusmerdeka.kemdikbud.go.id/program/magang/browse/{{item.id}}"
+        >{{ item.name }}</a
+      >
+      <div class="space-y-1 leading-tight">
+        <p>{{ item.mitra_name }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="container mx-auto p-4 my-6 space-y-2 text-center">
+    <a
+      rel="noopener noreferrer"
+      href="/magang"
+      class="px-8 py-3 text-lg font-semibold rounded bg-blue-400 dark:bg-blue-600 text-gray-900 dark:text-gray-50"
+      >Selengkapnya</a
+    >
+  </div>
+</section>
+{% endblock content %}
