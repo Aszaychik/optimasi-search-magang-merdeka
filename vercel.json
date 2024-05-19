@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "better-magang-merdeka",
   "builds": [
     {
       "src": "app.py",
