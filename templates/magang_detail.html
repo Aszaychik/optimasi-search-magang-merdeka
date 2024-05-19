@@ -66,6 +66,16 @@
       <div class="space-y-1 leading-tight">
         <p>{{ recommend_item.mitra_name }}</p>
       </div>
+      <div
+        style="padding-top: 0.2em; padding-bottom: 0.2rem"
+        class="flex my-3 items-center space-x-1 text-xs text-nowrap px-2 bg-gray-200 text-gray-800 rounded-full w-auto h-6"
+      >
+        <div
+          style="width: 0.4rem; height: 0.4rem"
+          class="bg-gray-500 rounded-full"
+        ></div>
+        <div>Score : {{ recommend_item.score }}</div>
+      </div>
     </div>
     {% endfor %}
   </div>
