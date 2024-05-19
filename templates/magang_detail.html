@@ -11,6 +11,23 @@
         {{item.name}}
       </h1>
       <p class="mt-6 mb-8 text-md sm:mb-12">{{item.detail_additional_title}}</p>
+      <div class="flex flex-col space-y-2">
+        <div class="mt-6 font-bold text-md">Skills Requirements :</div>
+        <div class="flex flex-wrap whitespace-nowrap gap-2">
+          {% for skill in skills %}
+          <div
+            style="padding-top: 0.2em; padding-bottom: 0.2rem"
+            class="flex my-3 items-center space-x-1 text-xs text-nowrap px-2 bg-gray-200 text-gray-800 rounded-full w-auto h-6"
+          >
+            <div
+              style="width: 0.4rem; height: 0.4rem"
+              class="bg-gray-500 rounded-full"
+            ></div>
+            <div>{{ skill }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
     <div
       class="flex flex-col items-center justify-center p-6 mt-8 lg:mt-0 w-1/3"
