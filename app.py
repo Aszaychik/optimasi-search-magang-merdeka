@@ -19,7 +19,7 @@ cleaned_data = pd.read_csv('data/cleaned_data.csv')
 
 tfidf_vectorizer = TfidfVectorizer()
 
-X = tfidf_vectorizer.fit_transform(cleaned_data['result_stemming'])
+X = tfidf_vectorizer.fit_transform(cleaned_data['result_preprocessing'])
 
 def random_magang(n=10):
     filter_magang = magang_opportunities.dropna(subset=['mitra_name', 'logo'])
