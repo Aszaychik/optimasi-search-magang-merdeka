@@ -70,7 +70,7 @@ def query_based_recommendation(query):
     
     similarity_score = cosine_similarity(query_vector, X)
     sorted_similar_content = similarity_score.argsort()[0][::-1]
-    top_n_content = sorted_similar_content[1:]
+    top_n_content = sorted_similar_content[0:]
 
     recommendation_result = pd.DataFrame(columns=['id', 'name', 'mitra', 'score'])
 
