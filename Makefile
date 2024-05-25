@@ -6,14 +6,18 @@ TAILWINDCMD=tailwindcss
 CSSBUILD=$(TAILWINDCMD) -i
 PYTHONCMD=python
 
-.PHONY: build run
+.PHONY: install_deps build run
 
-all: build
+all: install_deps build
 
-build:
-	# Compile Tailwind CSS
-	$(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
+install_deps:
+    # Install Python dependencies
+		pip install -r requirements.txt
+
+build: install_deps
+    # Compile Tailwind CSS
+		$(CSSBUILD) ./static/src/main.css -o ./static/dist/main.css --minify
 
 run: build
-	# Run the Python application
-	$(PYTHONCMD) app.py
+    # Run the Python application
+		$(PYTHONCMD) app.py
