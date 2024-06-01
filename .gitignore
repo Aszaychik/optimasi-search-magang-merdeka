@@ -50,4 +50,4 @@ docs/_build/
 
 # web assets cache
 *.webassets-cache
-.vercel
+.venv
