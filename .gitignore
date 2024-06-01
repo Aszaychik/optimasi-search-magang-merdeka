@@ -51,3 +51,4 @@ docs/_build/
 # web assets cache
 *.webassets-cache
 .venv
+.vscode
